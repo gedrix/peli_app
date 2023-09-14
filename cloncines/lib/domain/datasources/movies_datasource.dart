@@ -2,9 +2,9 @@
 
 import 'package:cloncines/domain/entities/movie.dart';
 
-abstract class MovieDatasurce{
+abstract class MoviesDatasurce{
 
-  Future<List<Movie>>getNowPlay({int page = 1});
+  Future<List<Movie>>getNowPlaying({int page = 1});
   
 
 }
