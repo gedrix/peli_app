@@ -6,7 +6,7 @@ import 'package:cloncines/inftrastructure/mappers/movie_mapper.dart';
 import 'package:cloncines/inftrastructure/models/moviedb/moviedb_response.dart';
 import 'package:dio/dio.dart';
 
-class MoviedbDatasource extends MoviesDatasurce {
+class MoviedbDatasource extends MoviesDatasource {
  final dio = Dio(BaseOptions(
     baseUrl: 'https://api.themoviedb.org/3',
     queryParameters: {
