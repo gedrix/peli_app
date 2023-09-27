@@ -1,5 +1,5 @@
 
-
+import 'package:animate_do/animate_do.dart';
 import 'package:cloncines/domain/entities/movie.dart';
 import 'package:flutter/material.dart';
 
@@ -53,32 +53,58 @@ class _Slide extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final textStyle = Theme.of(context).textTheme; 
+
     return  Container(
       margin: const EdgeInsets.symmetric(horizontal: 8),
       child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            //*IMAGEN
             SizedBox(
               width: 150,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(20),
                 child: Image.network(
                   movie.posterPath,
+                  fit: BoxFit.cover,
                   width: 150,
                   loadingBuilder: (context, child, loadingProgress) {
-                    
                     if(loadingProgress != null){
                        return const Padding(
                           padding: EdgeInsets.all(0.8),
                           child: Center(child:  CircularProgressIndicator(strokeWidth:2 ,))
                         );
                     }
-                     
-                    
-                    return child;
+                    return FadeIn(child: child);
+                    // return child;
                   },
                 ),
               ),
+            ),
+            const SizedBox(height: 5,),
+           
+            //*TITULO
+            SizedBox(
+              width: 150, 
+              child: Text(
+                movie.title,
+                maxLines: 2,
+                style: textStyle.titleSmall,
+              )
+            ),
+
+            //*Rating
+            Row(
+              children: [
+                Icon(Icons.star_half_outlined, color: Colors.yellow.shade800,),
+                const SizedBox(height: 3,),
+                Text('${movie.voteAverage}', style: textStyle.bodyMedium?.copyWith(color: Colors.yellow.shade800)),
+                const SizedBox(height: 10,),
+                Text('${movie.popularity}', style: textStyle.bodySmall,)
+
+              ],
             )
           ]
         ),
