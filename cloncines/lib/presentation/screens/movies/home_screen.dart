@@ -38,23 +38,68 @@ class _HomeViewState extends ConsumerState<_HomeView> {
     final slideShowMovies = ref.watch(moviesSlideShowsProvider);
   
    
-    return Column(
-      children: [
+    return CustomScrollView( //* me permite tener el appbar flotante tambien se puede utilizar el SingleChildScrollView
+      slivers: [
+        const SliverAppBar(
+          floating: true,
+          flexibleSpace: FlexibleSpaceBar(
+            title: CustomAppbar(),
+          ),
+        ),
+        SliverList(
+          delegate: SliverChildBuilderDelegate(
+            (context, index){
+                return Column(
+                        children: [
+                    
+                          MoviesSlideshow(movies: slideShowMovies),
+                    
+                          MovieHorizontalListview(
+                              movies:nowPlayingMovies,
+                              title: 'En cines',
+                              subtitle: 'Hoy',
+                              loadNextPage: (){
+                                ref.read(nowPlayingMoviesProvider.notifier).loadNextPate();
+                              },
+                            ),
+                            MovieHorizontalListview(
+                              movies:nowPlayingMovies,
+                              title: 'Proximanente',
+                              subtitle: 'Este mes',
+                              loadNextPage: (){
+                                ref.read(nowPlayingMoviesProvider.notifier).loadNextPate();
+                              },
+                            ),
+                            
+                            MovieHorizontalListview(
+                              movies:nowPlayingMovies,
+                              title: 'Populares',
+                              subtitle: 'Este mes',
+                              loadNextPage: (){
+                                ref.read(nowPlayingMoviesProvider.notifier).loadNextPate();
+                              },
+                            ),
+                            
+                            MovieHorizontalListview(
+                              movies:nowPlayingMovies,
+                              title: 'Mejores Calificadas',
+                              subtitle: 'Este mes',
+                              loadNextPage: (){
+                                ref.read(nowPlayingMoviesProvider.notifier).loadNextPate();
+                              },
+                            ),
 
-        const CustomAppbar(),
-
-        MoviesSlideshow(movies: slideShowMovies),
-
-        MovieHorizontalListview(
-            movies:nowPlayingMovies,
-            title: 'En cines',
-            subtitle: 'Hoy',
-            loadNextPage: (){
-              ref.read(nowPlayingMoviesProvider.notifier).loadNextPate();
+                            const SizedBox(height: 10,)
+                          
+                        ],
+                      );
             },
-          )
-        
-      ],
+            childCount: 1
+          ),
+        ),
+
+      ]
+      
     );
   }
 }

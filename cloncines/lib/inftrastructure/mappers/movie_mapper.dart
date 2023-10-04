@@ -14,7 +14,7 @@ class MovieMapper {
       popularity: moviedb.popularity,
       posterPath: (moviedb.posterPath != '')
         ? 'https://image.tmdb.org/t/p/w500${moviedb.posterPath}'
-        : 'no-poster',
+        : 'https://upload.wikimedia.org/wikipedia/commons/d/d1/Image_not_available.png',
       
       releaseDate: moviedb.releaseDate,
       title: moviedb.title,
