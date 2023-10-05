@@ -30,13 +30,19 @@ class _HomeViewState extends ConsumerState<_HomeView> {
     super.initState();
 
     ref.read(nowPlayingMoviesProvider.notifier).loadNextPate();
+    ref.read(popularMoviesProvider.notifier).loadNextPate();
+    ref.read(upComingMoviesProvider.notifier).loadNextPate();
+    ref.read(topRatedMoviesProvider.notifier).loadNextPate();
   }
 
   @override
   Widget build(BuildContext context) {
     final nowPlayingMovies = ref.watch(nowPlayingMoviesProvider);
     final slideShowMovies = ref.watch(moviesSlideShowsProvider);
-  
+    final popularMovies = ref.watch(popularMoviesProvider);
+    final upComingMovies = ref.watch(upComingMoviesProvider);
+    final topRatedMovies = ref.watch(topRatedMoviesProvider);
+
    
     return CustomScrollView( //* me permite tener el appbar flotante tambien se puede utilizar el SingleChildScrollView
       slivers: [
@@ -62,30 +68,31 @@ class _HomeViewState extends ConsumerState<_HomeView> {
                                 ref.read(nowPlayingMoviesProvider.notifier).loadNextPate();
                               },
                             ),
+
                             MovieHorizontalListview(
-                              movies:nowPlayingMovies,
+                              movies:upComingMovies,
                               title: 'Proximanente',
                               subtitle: 'Este mes',
                               loadNextPage: (){
-                                ref.read(nowPlayingMoviesProvider.notifier).loadNextPate();
+                                ref.read(upComingMoviesProvider.notifier).loadNextPate();
                               },
                             ),
                             
                             MovieHorizontalListview(
-                              movies:nowPlayingMovies,
+                              movies:popularMovies,
                               title: 'Populares',
                               subtitle: 'Este mes',
                               loadNextPage: (){
-                                ref.read(nowPlayingMoviesProvider.notifier).loadNextPate();
+                                ref.read(popularMoviesProvider.notifier).loadNextPate();
                               },
                             ),
                             
                             MovieHorizontalListview(
-                              movies:nowPlayingMovies,
+                              movies:topRatedMovies,
                               title: 'Mejores Calificadas',
                               subtitle: 'Este mes',
                               loadNextPage: (){
-                                ref.read(nowPlayingMoviesProvider.notifier).loadNextPate();
+                                ref.read(topRatedMoviesProvider.notifier).loadNextPate();
                               },
                             ),
 
