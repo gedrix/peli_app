@@ -29,7 +29,7 @@ class Full_screen_loader extends StatelessWidget {
          
           children:  [
               const SizedBox(height: 50,),
-              const Text('Espere por favor'),
+              const Text('Espere por favor...'),
               const CircularProgressIndicator(strokeWidth: 2,),
               const  SizedBox(height: 50,),
               StreamBuilder(
