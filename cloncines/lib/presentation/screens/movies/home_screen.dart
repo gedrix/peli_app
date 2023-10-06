@@ -29,6 +29,8 @@ class _HomeViewState extends ConsumerState<_HomeView> {
   void initState() {
     super.initState();
 
+    
+    
     ref.read(nowPlayingMoviesProvider.notifier).loadNextPate();
     ref.read(popularMoviesProvider.notifier).loadNextPate();
     ref.read(upComingMoviesProvider.notifier).loadNextPate();
@@ -37,13 +39,18 @@ class _HomeViewState extends ConsumerState<_HomeView> {
 
   @override
   Widget build(BuildContext context) {
+    final initialLoading = ref.watch(initialLoadingProvider);
+
+    if(initialLoading) return const Full_screen_loader(); 
+
     final nowPlayingMovies = ref.watch(nowPlayingMoviesProvider);
     final slideShowMovies = ref.watch(moviesSlideShowsProvider);
     final popularMovies = ref.watch(popularMoviesProvider);
     final upComingMovies = ref.watch(upComingMoviesProvider);
     final topRatedMovies = ref.watch(topRatedMoviesProvider);
 
-   
+  
+
     return CustomScrollView( //* me permite tener el appbar flotante tambien se puede utilizar el SingleChildScrollView
       slivers: [
         const SliverAppBar(
