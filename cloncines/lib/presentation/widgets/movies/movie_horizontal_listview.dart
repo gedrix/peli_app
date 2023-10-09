@@ -1,4 +1,4 @@
-
+import 'package:go_router/go_router.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:cloncines/config/helppers/human_formats.dart';
 import 'package:cloncines/domain/entities/movie.dart';
@@ -105,7 +105,11 @@ class _Slide extends StatelessWidget {
                           child: Center(child:  CircularProgressIndicator(strokeWidth:2 ,))
                         );
                     }
-                    return FadeIn(child: child);
+                    return GestureDetector(
+                      onTap: () => context.push('/movie/${ movie.id }'),
+                      child: FadeIn(child: child),
+                    );
+                    
                     // return child;
                   },
                 ),
