@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:cloncines/domain/entities/movie.dart';
 
 
-final movieInfoProvider = StateNotifierProvider((ref) {
+final movieInfoProvider = StateNotifierProvider<MovieMapNotifier, Map<String, Movie>>((ref) {
 
   final moviesRepository = ref.watch(movieRepositoryProvider);
 
@@ -25,6 +25,8 @@ class MovieMapNotifier extends StateNotifier<Map<String, Movie>> {
 
   Future<void> LoadMovie(String movieId) async{
     if(state[movieId] != null) return null;
+
+    print('realizando peticion http');
 
     final movie = await getMovie(movieId);
 
