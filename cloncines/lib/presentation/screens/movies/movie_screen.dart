@@ -96,7 +96,7 @@ class _MovieDetails extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(movie.title, style: textStyle.titleLarge,),
+                        Text(movie.title, style: textStyle.titleLarge, ),
                         Text(movie.overview ),
 
                       ],
@@ -149,7 +149,7 @@ class _CustomSliverAppbBar extends StatelessWidget {
       foregroundColor: Colors.white,
       flexibleSpace: FlexibleSpaceBar(
         titlePadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-        title: Text(movie.title, style:  const TextStyle(fontSize: 20), textAlign: TextAlign.start,),
+        title: Text(movie.title, style:  const TextStyle(fontSize: 20), textAlign: TextAlign.start, ),
         background: Stack(
           children: [
             SizedBox.expand(
