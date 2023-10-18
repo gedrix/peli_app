@@ -28,7 +28,7 @@ class CustomAppbar extends StatelessWidget {
           const Spacer(),
           IconButton(
               onPressed: (){
-
+                //*acciones para realizar busqueda
               }, 
               icon: const Icon(Icons.search)
             )
