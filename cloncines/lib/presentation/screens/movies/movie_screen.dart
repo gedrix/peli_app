@@ -1,6 +1,7 @@
 
 import 'package:cloncines/domain/entities/movie.dart';
 import 'package:cloncines/presentation/providers/movies/movie_info_provider.dart';
+import 'package:cloncines/presentation/providers/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -25,7 +26,7 @@ class MovieScreenState extends ConsumerState<MovieScreen> {
     super.initState();
 
     ref.read(movieInfoProvider.notifier).LoadMovie(widget.movieId);
-
+    ref.read(actorByMovieProvider.notifier).LoadActors(widget.movieId);
 
   }
 
