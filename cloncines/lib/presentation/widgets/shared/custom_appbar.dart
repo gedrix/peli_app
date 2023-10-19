@@ -1,4 +1,5 @@
 import 'package:cloncines/config/constants/environment.dart';
+import 'package:cloncines/presentation/delegates/search_movie_delegate.dart';
 import 'package:flutter/material.dart';
 
 class CustomAppbar extends StatelessWidget {
@@ -29,6 +30,10 @@ class CustomAppbar extends StatelessWidget {
           IconButton(
               onPressed: (){
                 //*acciones para realizar busqueda
+                showSearch(
+                  context: context, 
+                  delegate: SearchMovieDelete()
+                );
               }, 
               icon: const Icon(Icons.search)
             )
