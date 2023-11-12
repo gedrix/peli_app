@@ -1,8 +1,10 @@
 import 'package:cloncines/config/constants/environment.dart';
+import 'package:cloncines/domain/entities/movie.dart';
 import 'package:cloncines/presentation/delegates/search_movie_delegate.dart';
 import 'package:cloncines/presentation/providers/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class CustomAppbar extends ConsumerWidget {
   const CustomAppbar({super.key});
@@ -35,12 +37,17 @@ class CustomAppbar extends ConsumerWidget {
 
                 final movieRepository = ref.read(movieRepositoryProvider);
 
-                showSearch(
+                showSearch<Movie?>(
                   context: context, 
                   delegate: SearchMovieDelete(
                     searchMovies: movieRepository.searchMovie, //sino le pongo (query) no se llama a ejecutar sino manda la refefencia
                   )
-                );
+                ).then((movie) {
+                  if(movie == null) return;
+                   
+                  context.push('/movie/${movie.id}');
+                });
+                
               }, 
               icon: const Icon(Icons.search)
             )

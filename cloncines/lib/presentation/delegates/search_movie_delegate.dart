@@ -1,5 +1,7 @@
 
 
+import 'dart:async';
+
 import 'package:animate_do/animate_do.dart';
 import 'package:cloncines/config/helppers/human_formats.dart';
 import 'package:flutter/material.dart';
@@ -11,9 +13,20 @@ class SearchMovieDelete extends SearchDelegate<Movie?> {
 
   final SearchoMoviesCallBack searchMovies;
 
+  StreamController<List<Movie>> debouncdeMovies = StreamController.broadcast();
+  Timer? _debounceTimer;
   SearchMovieDelete({
     required this.searchMovies,
   });
+
+  void _onQueryChance(String query){
+      if (_debounceTimer?.isActive ?? false) _debounceTimer!.cancel();
+
+      _debounceTimer = Timer(const Duration(milliseconds: 500), (){
+        // print('Buscando peli');
+        //Todo buscar peli
+      });
+  }
 
   @override
   String get searchFieldLabel => 'Buscar película';
@@ -50,20 +63,25 @@ class SearchMovieDelete extends SearchDelegate<Movie?> {
   @override
   Widget buildSuggestions(BuildContext context) {
     
-    return FutureBuilder(
-      future: searchMovies(query), 
+    _onQueryChance(query);
+    return StreamBuilder(
+      stream: debouncdeMovies.stream,
+      // future: searchMovies(query), 
       builder: (context, snapshot) {
-        
+
         final movies = snapshot.data ?? [];
         
         return ListView.builder(
           itemCount: movies.length,
           itemBuilder: (context, index) {
-            final movie = movies[index];
+            // final movie = movies[index];
             // return ListTile(
             //   title: Text(movie.title),
             // );
-            return _MovieItem(movie: movies[index],);
+            return _MovieItem(
+              movie: movies[index],
+              onMovieSelected: close,
+            );
           },
         );
       },
@@ -74,8 +92,11 @@ class SearchMovieDelete extends SearchDelegate<Movie?> {
 
 class _MovieItem extends StatelessWidget {
   final Movie movie;
+  final Function onMovieSelected;
+
   const _MovieItem({
-      required this.movie
+      required this.movie, 
+      required this.onMovieSelected
     });
 
   @override
@@ -84,52 +105,57 @@ class _MovieItem extends StatelessWidget {
     final textStyles = Theme.of(context).textTheme; 
     final size = MediaQuery.of(context).size; 
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-      child: Row(
-        children: [
-
-          //*image
-          SizedBox(
-            width: size.width * 0.2,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(20),
-              child: Image.network(
-                movie.posterPath,
-                loadingBuilder: (context, child, loadingProgress) => FadeIn(child: child),
+    return GestureDetector(
+      onTap: () {
+        onMovieSelected(context, movie);
+      },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+        child: Row(
+          children: [
+    
+            //*image
+            SizedBox(
+              width: size.width * 0.2,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: Image.network(
+                  movie.posterPath,
+                  loadingBuilder: (context, child, loadingProgress) => FadeIn(child: child),
+                ),
               ),
             ),
-          ),
-          const SizedBox(width: 10),
-
-          //*descripcion
-          SizedBox(
-            width: size.width * 0.7,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start ,
-              children: [
-                Text(movie.title, style:  textStyles.titleMedium),
-                (movie.overview.length > 100)
-                  ? Text('${movie.overview.substring(0,100)}...') 
-                  : Text(movie.overview),
-                Row(
-                  children: [
-                    Icon(Icons.star_half_rounded, color: Colors.yellow.shade800),
-                    SizedBox(width: 5,),
-                    Text(
-                      HumanFormats.number(movie.voteAverage, 2), 
-                      style: textStyles.bodyMedium!.copyWith(color: Colors.yellow.shade900),
-                    ),
-                  ],
-                )
-
-                
-              ],
-            ),
-          )
-
-
-        ],
+            const SizedBox(width: 10),
+    
+            //*descripcion
+            SizedBox(
+              width: size.width * 0.7,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start ,
+                children: [
+                  Text(movie.title, style:  textStyles.titleMedium),
+                  (movie.overview.length > 100)
+                    ? Text('${movie.overview.substring(0,100)}...') 
+                    : Text(movie.overview),
+                  Row(
+                    children: [
+                      Icon(Icons.star_half_rounded, color: Colors.yellow.shade800),
+                      SizedBox(width: 5,),
+                      Text(
+                        HumanFormats.number(movie.voteAverage, 2), 
+                        style: textStyles.bodyMedium!.copyWith(color: Colors.yellow.shade900),
+                      ),
+                    ],
+                  )
+    
+                  
+                ],
+              ),
+            )
+    
+    
+          ],
+        ),
       ),
     );
   }
